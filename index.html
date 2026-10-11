@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Digital Notice Board</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo-container">
+            <span class="logo-icon">📢</span>
+            <span>Smart Notice Board</span>
+        </a>
+        <div class="nav-links" id="navLinks">
+            <a href="login.html" class="btn btn-secondary">Login</a>
+            <a href="register.html" class="btn">Register</a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="hero-container">
+            <h1 class="hero-title">Stay Updated with Real-Time Announcements</h1>
+            <p class="hero-subtitle">
+                Access official notices, filter by department & priority, stay notified with instant updates, and interact directly from your digital campus board.
+            </p>
+
+            <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                <a href="login.html" class="btn" style="padding: 0.85rem 2rem; font-size: 1.1rem;">
+                    Get Started &rarr;
+                </a>
+                <a href="register.html" class="btn btn-secondary" style="padding: 0.85rem 2rem; font-size: 1.1rem;">
+                    Create Account
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { protectRoute } from "./auth.js";
+        protectRoute(null, (user, role) => {
+            if (user) {
+                if (role === 'admin') {
+                    window.location.href = "admin.html";
+                } else {
+                    window.location.href = "student.html";
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Smart Notice Board</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <header>
+        <a href="admin.html" class="logo-container">
+            <span class="logo-icon">👑</span>
+            <span>Admin Control Panel</span>
+        </a>
+        <div class="nav-links" id="navLinks">
+            <!-- Rendered by auth.js -->
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Stats Overview Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📢</div>
+                <div>
+                    <div class="stat-number" id="statTotalNotices">0</div>
+                    <div class="stat-label">Total Notices</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#d1fae5; color:#059669;">✅</div>
+                <div>
+                    <div class="stat-number" id="statActiveNotices">0</div>
+                    <div class="stat-label">Active Notices</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#fef3c7; color:#d97706;">📌</div>
+                <div>
+                    <div class="stat-number" id="statPinnedNotices">0</div>
+                    <div class="stat-label">Pinned Notices</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#f3e8ff; color:#8b5cf6;">👥</div>
+                <div>
+                    <div class="stat-number" id="statTotalUsers">0</div>
+                    <div class="stat-label">Registered Users</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="admin-tabs">
+            <button class="tab-btn active" data-tab="noticesTab">📢 Manage Notices</button>
+            <button class="tab-btn" data-tab="usersTab">👥 Users List</button>
+            <button class="tab-btn" data-tab="analyticsTab">📊 Analytics & Charts</button>
+            
+            <button class="btn btn-sm" id="createNoticeBtn" style="margin-left:auto;">
+                ➕ Create Notice
+            </button>
+        </div>
+
+        <!-- TAB 1: Notices Management -->
+        <section id="noticesTab" class="tab-content">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Notice Title</th>
+                            <th>Category</th>
+                            <th>Priority</th>
+                            <th>Expiry</th>
+                            <th>Status</th>
+                            <th>Pinned</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="noticesTableBody">
+                        <tr>
+                            <td colspan="7" style="text-align:center;">Loading notices...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- TAB 2: Users Management -->
+        <section id="usersTab" class="tab-content" style="display:none;">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>User ID</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <tr>
+                            <td colspan="4" style="text-align:center;">Loading users...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- TAB 3: Analytics -->
+        <section id="analyticsTab" class="tab-content" style="display:none;">
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem;">
+                <div style="background:white; padding:1.5rem; border-radius:var(--radius); border:1px solid var(--border);">
+                    <h3 style="margin-bottom:1rem; font-size:1.1rem;">Notices by Category</h3>
+                    <canvas id="categoryChart"></canvas>
+                </div>
+                <div style="background:white; padding:1.5rem; border-radius:var(--radius); border:1px solid var(--border);">
+                    <h3 style="margin-bottom:1rem; font-size:1.1rem;">Interactions (Likes & Views)</h3>
+                    <canvas id="viewsChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Create / Edit Notice Modal -->
+    <div id="noticeFormModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="formModalTitle">Create New Notice</h3>
+                <button class="modal-close" id="closeFormModalBtn">&times;</button>
+            </div>
+
+            <form id="noticeForm">
+                <input type="hidden" id="noticeId">
+
+                <div class="form-group">
+                    <label for="title">Notice Title *</label>
+                    <input type="text" id="title" class="form-control" placeholder="Enter notice title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description *</label>
+                    <textarea id="description" class="form-control" placeholder="Enter full details..." required></textarea>
+                </div>
+
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+                    <div class="form-group">
+                        <label for="department">Category/Department</label>
+                        <select id="department" class="form-control">
+                            <option value="General">General</option>
+                            <option value="IT">IT</option>
+                            <option value="CSE">CSE</option>
+                            <option value="ECE">ECE</option>
+                            <option value="EEE">EEE</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="priority">Priority</label>
+                        <select id="priority" class="form-control">
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="expiryDate">Expiry Date</label>
+                    <input type="date" id="expiryDate" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="image">Attachment Image (Optional)</label>
+                    <input type="file" id="image" class="form-control" accept="image/*">
+                    <div style="margin-top:0.5rem; text-align:center;">
+                        <img id="imagePreview" style="max-width:100%; max-height:160px; border-radius:8px; display:none;">
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:1.5rem; margin-bottom:1.5rem;">
+                    <label style="display:flex; align-items:center; gap:0.5rem; font-weight:normal; cursor:pointer;">
+                        <input type="checkbox" id="isPinned"> Pin to top
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; font-weight:normal; cursor:pointer;">
+                        <input type="checkbox" id="isActive" checked> Active Notice
+                    </label>
+                </div>
+
+                <button type="submit" id="saveNoticeBtn" class="btn" style="width:100%;">
+                    Save Notice
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="admin.js"></script>
+</body>
+</html>

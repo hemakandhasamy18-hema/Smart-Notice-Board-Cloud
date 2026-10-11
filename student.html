@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notices - Smart Notice Board</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <a href="student.html" class="logo-container">
+            <span class="logo-icon">📢</span>
+            <span>Digital Notice Board</span>
+        </a>
+        <div class="nav-links" id="navLinks">
+            <!-- Rendered by auth.js -->
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Controls & Filter Bar -->
+        <div class="filter-bar">
+            <input type="text" id="searchInput" class="form-control search-input" placeholder="🔍 Search notices by title or keywords...">
+            
+            <select id="categoryFilter" class="form-control filter-select">
+                <option value="All">All Departments</option>
+                <option value="IT">IT</option>
+                <option value="CSE">CSE</option>
+                <option value="ECE">ECE</option>
+                <option value="EEE">EEE</option>
+                <option value="General">General</option>
+            </select>
+
+            <select id="priorityFilter" class="form-control filter-select">
+                <option value="All">All Priorities</option>
+                <option value="High">🔴 High Priority</option>
+                <option value="Medium">🟡 Medium Priority</option>
+                <option value="Low">🟢 Low Priority</option>
+            </select>
+        </div>
+
+        <!-- Notice Cards Grid -->
+        <div id="noticeGrid" class="notice-grid">
+            <div class="spinner-wrapper">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Details View Modal -->
+    <div id="noticeModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle" style="font-size: 1.3rem; font-weight:700; color:var(--text-dark);">Notice Details</h3>
+                <button class="modal-close" id="closeModalBtn">&times;</button>
+            </div>
+            <div id="modalBody">
+                <!-- Dynamically filled -->
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="student.js"></script>
+</body>
+</html>

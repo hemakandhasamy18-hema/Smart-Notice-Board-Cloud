@@ -1,0 +1,17 @@
+{
+  "name": "smart-notice-board",
+  "version": "1.0.0",
+  "description": "Smart Digital Notice Board Application",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "backend": "node server.js",
+    "frontend": "node frontend_server.js",
+    "dev": "node frontend_server.js & node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}
